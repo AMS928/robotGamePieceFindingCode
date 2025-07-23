@@ -1,20 +1,31 @@
-public class MyProgram extends ConsoleProgram {
+import java.util.Scanner;
+import java.awt.Point;
+
+public class MyProgram {
+
+    public static void main(String[] args) {
+        new MyProgram().run();
+    }
 
     public void run() {
+        Scanner input = new Scanner(System.in);
         int wiggle = 1;
         System.out.println("Distance is in meters and time is in seconds.");
 
-        Point robot = new Point(
-            (int) readDouble("Where is the robot's x-cord? "),
-            (int) readDouble("Where is the robot's y-cord? ")
-        );
-        double robotSpeed = readDouble("What is the robot's velocity? ");
-        double robotMaxSpeed = robotSpeed;
+        System.out.print("Where is the robot's x-cord? ");
+        int robotX = (int) input.nextDouble();
+        System.out.print("Where is the robot's y-cord? ");
+        int robotY = (int) input.nextDouble();
+        Point robot = new Point(robotX, robotY);
 
-        Point scoringZone = new Point(
-            (int) readDouble("Where is the nearest scoring zone's x-cord? "),
-            (int) readDouble("Where is the nearest scoring zone's y-cord? ")
-        );
+        System.out.print("What is the robot's velocity? ");
+        double robotSpeed = input.nextDouble();
+
+        System.out.print("Where is the nearest scoring zone's x-cord? ");
+        int scoreX = (int) input.nextDouble();
+        System.out.print("Where is the nearest scoring zone's y-cord? ");
+        int scoreY = (int) input.nextDouble();
+        Point scoringZone = new Point(scoreX, scoreY);
 
         System.out.println(" ");
 
@@ -37,7 +48,7 @@ public class MyProgram extends ConsoleProgram {
 
             double time = (speed != 0)
                 ? calculateTimeToMovingGamePiece(robot, robotSpeed, scoringZone, start, end, speed, wiggle)
-                : calculateTimeToStationaryMovingGamePiece(robot, robotSpeed, scoringZone, start, speed, wiggle);
+                : calculateTimeToStationaryGamePiece(robot, robotSpeed, scoringZone, start, speed, wiggle);
 
             times[i] = time;
             System.out.println(" ");
@@ -92,7 +103,7 @@ public class MyProgram extends ConsoleProgram {
         return (robotSpeed < 0) ? wiggle + timeToGamePiece + timeToScore : timeToGamePiece;
     }
 
-    private double calculateTimeToStationaryMovingGamePiece(
+    private double calculateTimeToStationaryGamePiece(
         Point robot, double robotSpeed, Point scoringZone,
         Point target, double speed, int wiggle
     ) {
